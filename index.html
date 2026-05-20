@@ -7,135 +7,70 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="LEGO"/>
   <meta name="theme-color" content="#0a0a0f"/>
-  <title>LEGO Collection v1.3</title>
+  <title>LEGO Collection v2.0</title>
   <link rel="manifest" href="manifest.json"/>
   <link rel="apple-touch-icon" href="icon-192.png"/>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --red:#e3000b; --yellow:#FFD700; --green:#7ec850;
-      --bg:#0a0a0f; --card:#13131f; --border:#1e1e2e;
-      --text:#f0ede6; --muted:#666; --nav-h:64px;
-    }
+    :root{--red:#e3000b;--yellow:#FFD700;--green:#7ec850;--bg:#0a0a0f;--card:#13131f;--border:#1e1e2e;--text:#f0ede6;--muted:#666;--nav-h:64px}
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;
-      min-height:100vh;min-height:-webkit-fill-available;overscroll-behavior:none}
-
-    /* ── NAV ── */
-    .nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);
-      background:rgba(10,10,15,0.97);backdrop-filter:blur(16px);
-      border-top:1px solid var(--border);display:flex;z-index:100;
-      padding-bottom:env(safe-area-inset-bottom)}
-    .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;
-      justify-content:center;gap:4px;border:none;background:none;color:var(--muted);
-      font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;
-      transition:color .2s;padding-bottom:4px}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;min-height:-webkit-fill-available;overscroll-behavior:none}
+    .nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,0.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+    .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:none;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:color .2s;padding-bottom:4px}
     .nav-btn.active{color:var(--yellow)}
     .nav-btn svg{width:22px;height:22px}
-
-    /* ── PAGES ── */
     .page{display:none;padding-bottom:calc(var(--nav-h) + 16px);min-height:100vh}
     .page.active{display:block}
-
-    /* ── HEADER ── */
-    .header{background:linear-gradient(160deg,#111122 0%,#0a0a0f 100%);
-      padding:52px 20px 18px;border-bottom:2px solid var(--red);
-      position:sticky;top:0;z-index:50}
+    .header{background:linear-gradient(160deg,#111122 0%,#0a0a0f 100%);padding:52px 20px 18px;border-bottom:2px solid var(--red);position:sticky;top:0;z-index:50}
     .header-top{display:flex;align-items:center;gap:12px;margin-bottom:4px}
-    .logo{width:40px;height:40px;background:var(--red);border-radius:10px;
-      display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .logo{width:40px;height:40px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
     .title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;line-height:1}
     .subtitle{font-size:12px;color:var(--muted);margin-top:2px}
-
-    /* ── LOADING / ERROR ── */
-    .loading{display:flex;flex-direction:column;align-items:center;
-      justify-content:center;padding:80px 20px;gap:14px;color:var(--muted);font-size:14px}
-    .spinner{width:36px;height:36px;border:3px solid var(--border);
-      border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .error-box{margin:20px;padding:16px;background:#1a0a0a;
-      border:1px solid #e3000b44;border-radius:10px;font-size:13px;
-      color:#e07070;line-height:1.6}
-    .retry-btn{margin-top:12px;padding:8px 18px;background:var(--red);color:#fff;
-      border:none;border-radius:6px;font-family:'DM Sans',sans-serif;
-      font-size:13px;cursor:pointer}
-
-    /* ── DASHBOARD ── */
     .dash-content{padding:16px}
-
     .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-    .kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;
-      padding:14px;position:relative;overflow:hidden}
+    .kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;position:relative;overflow:hidden}
     .kpi.wide{grid-column:1/-1}
     .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--red))}
     .kpi-val{font-family:'Bebas Neue',sans-serif;font-size:38px;line-height:1}
     .kpi-val.sm{font-size:26px}
     .kpi-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
     .kpi-sub{font-size:11px;color:var(--muted);margin-top:2px}
-
     .prog-wrap{margin-top:10px}
     .prog-header{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px}
     .prog-header span:last-child{color:var(--yellow);font-weight:600}
     .prog-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
     .prog-fill{height:100%;background:var(--yellow);border-radius:3px}
     .prog-footer{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
-
-    .sec-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1.5px;
-      color:var(--muted);margin:20px 0 10px;text-transform:uppercase}
-
-    /* ── TABLES ── */
-    .tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;
-      overflow:hidden;margin-bottom:16px}
+    .sec-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1.5px;color:var(--muted);margin:20px 0 10px;text-transform:uppercase}
+    .tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;overflow-x:auto}
     table{width:100%;border-collapse:collapse;font-size:12px}
     thead tr{background:#0d0d1a}
-    th{padding:9px 10px;text-align:right;font-size:10px;font-weight:600;
-      color:var(--muted);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+    th{padding:9px 10px;text-align:right;font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
     th:first-child{text-align:left}
-    td{padding:8px 10px;text-align:right;border-top:1px solid var(--border);
-      color:var(--text);white-space:nowrap}
+    td{padding:8px 10px;text-align:right;border-top:1px solid var(--border);color:var(--text);white-space:nowrap}
     td:first-child{text-align:left;font-weight:500}
     tr.total-row td{background:#0d0d1a;font-weight:700;color:var(--yellow)}
-    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;
-      margin-right:6px;flex-shrink:0;vertical-align:middle}
+    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
     .pct-cell{color:var(--green)}
-
-    /* ── MATRIX TABLE ── */
-    .matrix-grid{display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:0}
     .mx{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px}
-    .mx table th,.mx table td{font-size:12px;padding:9px 12px}
-    .mx table th{text-align:center}
+    .mx table th{text-align:center;font-size:11px}
     .mx table td{text-align:center}
     .mx table td:first-child{text-align:left}
-
-    /* ── RETIREMENT TABLE ── */
-    .retire-tbl td:first-child{color:var(--muted);font-weight:400}
-
-    /* ── SEARCH ── */
-    .srch-header{padding:52px 20px 14px;
-      background:linear-gradient(160deg,#111122 0%,#0a0a0f 100%);
-      border-bottom:2px solid var(--red);position:sticky;top:0;z-index:50}
-    .srch-input{width:100%;padding:12px 16px;border-radius:10px;
-      border:1.5px solid var(--border);background:#0d0d18;color:var(--text);
-      font-size:16px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px}
+    .srch-header{padding:52px 20px 14px;background:linear-gradient(160deg,#111122 0%,#0a0a0f 100%);border-bottom:2px solid var(--red);position:sticky;top:0;z-index:50}
+    .srch-input{width:100%;padding:12px 16px;border-radius:10px;border:1.5px solid var(--border);background:#0d0d18;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px}
     .srch-input:focus{border-color:var(--red)}
     .filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
     .filters::-webkit-scrollbar{display:none}
-    select{background:#0d0d18;color:var(--text);border:1.5px solid var(--border);
-      border-radius:8px;padding:8px 10px;font-size:13px;
-      font-family:'DM Sans',sans-serif;outline:none;flex-shrink:0}
+    select{background:#0d0d18;color:var(--text);border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;flex-shrink:0}
     .result-count{padding:10px 16px 4px;font-size:12px;color:var(--muted)}
     .sets-list{padding:4px 14px 0}
-
-    .set-card{background:var(--card);border:1px solid var(--border);
-      border-left:3px solid var(--tc,#888);border-radius:10px;
-      padding:13px 14px;margin-bottom:10px}
+    .set-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--tc,#888);border-radius:10px;padding:13px 14px;margin-bottom:10px}
     .set-meta{font-size:11px;color:var(--muted);margin-bottom:2px}
     .set-name{font-size:15px;font-weight:600;margin-bottom:8px;line-height:1.3}
     .set-footer{display:flex;justify-content:space-between;align-items:flex-end}
     .badges{display:flex;gap:5px;flex-wrap:wrap}
     .badge{padding:3px 7px;border-radius:5px;font-size:11px;font-weight:500;border:1px solid transparent}
-    .b-theme{background:color-mix(in srgb,var(--tc) 15%,transparent);
-      border-color:color-mix(in srgb,var(--tc) 40%,transparent);color:var(--tc)}
+    .b-theme{background:color-mix(in srgb,var(--tc) 15%,transparent);border-color:color-mix(in srgb,var(--tc) 40%,transparent);color:var(--tc)}
     .b-built{background:#1a3a1a;border-color:#7ec85055;color:#7ec850}
     .b-unbuilt{background:#1a1a1a;border-color:#33333355;color:#555}
     .b-active{background:#1a2a1a;border-color:#70b07044;color:#70b070}
@@ -148,200 +83,236 @@
 </head>
 <body>
 
-<!-- DASHBOARD -->
 <div class="page active" id="page-dash">
   <div class="header">
     <div class="header-top">
       <div class="logo">🧱</div>
       <div>
         <div class="title">LEGO Collection</div>
-        <div class="subtitle" id="dash-subtitle">Loading… <span style="opacity:0.4;font-size:10px">v1.3</span></div>
+        <div class="subtitle">128 sets <span style="opacity:0.4;font-size:10px">v2.0</span></div>
       </div>
     </div>
   </div>
-  <div id="dash-body">
-    <div class="loading"><div class="spinner"></div>Fetching your collection…</div>
-  </div>
+  <div id="dash-body"></div>
 </div>
 
-<!-- SEARCH -->
 <div class="page" id="page-search">
   <div class="srch-header">
     <div class="header-top" style="margin-bottom:14px">
       <div class="logo">🔍</div>
       <div>
         <div class="title">Find a Set</div>
-        <div class="subtitle" id="srch-subtitle">—</div>
+        <div class="subtitle">128 sets <span style="opacity:0.4;font-size:10px">v2.0</span></div>
       </div>
     </div>
     <input class="srch-input" id="srch-input" type="search" placeholder="Name or set number…"/>
     <div class="filters">
       <select id="f-theme"><option value="">All Themes</option></select>
-      <select id="f-built">
-        <option value="">Built?</option>
-        <option value="YES">Built</option>
-        <option value="NO">Not Built</option>
-      </select>
-      <select id="f-retired">
-        <option value="">Status</option>
-        <option value="Not Retired">Active</option>
-        <option value="Retired">Retired</option>
-      </select>
+      <select id="f-built"><option value="">Built?</option><option value="YES">Built</option><option value="NO">Not Built</option></select>
+      <select id="f-retired"><option value="">Status</option><option value="Not Retired">Active</option><option value="Retired">Retired</option></select>
     </div>
   </div>
   <div class="result-count" id="result-count"></div>
-  <div class="sets-list" id="sets-list">
-    <div class="loading"><div class="spinner"></div>Loading…</div>
-  </div>
+  <div class="sets-list" id="sets-list"></div>
 </div>
 
-<!-- NAV -->
 <nav class="nav">
   <button class="nav-btn active" id="nav-dash" onclick="switchPage('dash')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-      <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-    </svg>Dashboard
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
   </button>
   <button class="nav-btn" id="nav-search" onclick="switchPage('search')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-    </svg>Search
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search
   </button>
 </nav>
 
 <script>
-// ── IMPORTANT: Replace this URL after you deploy the Apps Script ──
-// It should look like: https://script.google.com/macros/s/XXXX/exec
-const API_URL = 'https://script.google.com/macros/s/AKfycbxWZeCdyc60iwPCdJ_In_xlwoMQfzoHfjEu423VrKjPxyPC9PR-JbMmG2lq_gTFzJqWmQ/exec';
-
-const THEME_COLORS = {
-  "Star Wars":"#FFE81F","Architecture":"#A8D5E2","Icons":"#F4A460",
-  "Ideas":"#98D8C8","Super Mario":"#E8402A","Speed Champions":"#E63946",
-  "Marvel":"#FF3A3A","Technic":"#CC0000","Botanical Collection":"#7EC850",
-  "Creator":"#4ECDC4","Creator Expert":"#2E86AB","Jurassic World":"#5C8A3C",
-  "Pokemon":"#FFCB05","Disney":"#1B6CA8","Harry Potter":"#C7A84F",
-  "DC":"#0476D0","Editions":"#9B5DE5","Other":"#888888"
-};
-
-let allSets = [];
-let loaded = false;
-
-// ── FETCH via JSONP (bypasses CORS) ────────────────────────────
-function loadData() {
-  // Remove any previous JSONP script tag
-  const old = document.getElementById('jsonp-script');
-  if (old) old.remove();
-
-  window._legoCallback = function(data) {
-    try {
-      if (data.error) throw new Error(data.error);
-      allSets = data.sets;
-      loaded = true;
-      const ts = new Date(data.fetchedAt);
-      const timeStr = ts.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-      document.getElementById('dash-subtitle').innerHTML = `${allSets.length} sets · synced ${timeStr} <span style="opacity:0.4;font-size:10px">v1.3</span>`;
-      document.getElementById('srch-subtitle').textContent = `${allSets.length} sets`;
-      renderDashboard();
-      initSearch();
-    } catch(e) {
-      showError(e.message);
-    }
-  };
-
-  // Set a timeout in case script never calls back
-  const timer = setTimeout(() => showError('Request timed out. Try again.'), 60000);
-  window._legoCallback = (function(origFn) {
-    return function(data) {
-      clearTimeout(timer);
-      origFn(data);
-    };
-  })(window._legoCallback);
-
-  const script = document.createElement('script');
-  script.id = 'jsonp-script';
-  script.src = API_URL + '?callback=_legoCallback';
-  script.onerror = () => showError('Failed to reach Apps Script.');
-  document.head.appendChild(script);
-}
-
-function showError(msg) {
-  const html = `<div class="error-box">
-    ⚠️ Could not load data.<br><br>${msg}<br><br>
-    <button class="retry-btn" onclick="loadData()">Retry</button>
-  </div>`;
-  document.getElementById('dash-body').innerHTML = html;
-  document.getElementById('sets-list').innerHTML = html;
-  document.getElementById('dash-subtitle').textContent = 'Failed to load';
-}
-
-// ── HELPERS ────────────────────────────────────────────────────
+const TC = {"Star Wars":"#FFE81F","Architecture":"#A8D5E2","Icons":"#F4A460","Ideas":"#98D8C8","Super Mario":"#E8402A","Speed Champions":"#E63946","Marvel":"#FF3A3A","Technic":"#CC0000","Botanical Collection":"#7EC850","Creator":"#4ECDC4","Creator Expert":"#2E86AB","Jurassic World":"#5C8A3C","Pokemon":"#FFCB05","Disney":"#1B6CA8","Harry Potter":"#C7A84F","DC":"#0476D0","Editions":"#9B5DE5","Other":"#888888"};
+const tc = t => TC[t]||'#888';
 const fmt = n => Number(n).toLocaleString();
-const pct = (a,b) => b ? Math.round(a/b*100)+'%' : '0%';
-const tc  = t => THEME_COLORS[t] || '#888';
+const pct = (a,b) => b?Math.round(a/b*100)+'%':'0%';
 
-// ── DASHBOARD ──────────────────────────────────────────────────
+const allSets = [
+  {num:"21061",name:"Notre-Dame de Paris",theme:"Architecture",pieces:4383,yearReleased:2024,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"21063",name:"Neuschwanstein Castle",theme:"Architecture",pieces:3455,yearReleased:2025,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"21060",name:"Himeji Castle",theme:"Architecture",pieces:2125,yearReleased:2023,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"21042",name:"Statue of Liberty",theme:"Architecture",pieces:1685,yearReleased:2018,yearRetired:"2026",built:"YES",retired:"Not Retired"},
+  {num:"21029",name:"Buckingham Palace",theme:"Architecture",pieces:780,yearReleased:2016,yearRetired:"2018",built:"YES",retired:"Retired"},
+  {num:"21024",name:"Louvre",theme:"Architecture",pieces:695,yearReleased:2015,yearRetired:"2017",built:"YES",retired:"Retired"},
+  {num:"21028",name:"New York City",theme:"Architecture",pieces:598,yearReleased:2016,yearRetired:"2025",built:"YES",retired:"Retired"},
+  {num:"21006",name:"The White House",theme:"Architecture",pieces:560,yearReleased:2010,yearRetired:"2011",built:"YES",retired:"Retired"},
+  {num:"21023",name:"Flatiron Building",theme:"Architecture",pieces:471,yearReleased:2015,yearRetired:"2016",built:"YES",retired:"Retired"},
+  {num:"21034",name:"London",theme:"Architecture",pieces:468,yearReleased:2017,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"21011",name:"Brandenburg Gate",theme:"Architecture",pieces:363,yearReleased:2011,yearRetired:"2015",built:"YES",retired:"Retired"},
+  {num:"21013",name:"Big Ben",theme:"Architecture",pieces:346,yearReleased:2012,yearRetired:"2016",built:"YES",retired:"Retired"},
+  {num:"21015",name:"The Leaning Tower of Pisa",theme:"Architecture",pieces:345,yearReleased:2013,yearRetired:"2015",built:"YES",retired:"Retired"},
+  {num:"21055",name:"Burj Khalifa",theme:"Architecture",pieces:333,yearReleased:2019,yearRetired:"2022",built:"YES",retired:"Retired"},
+  {num:"21019",name:"The Eiffel Tower",theme:"Architecture",pieces:321,yearReleased:2014,yearRetired:"2018",built:"YES",retired:"Retired"},
+  {num:"21027",name:"Berlin",theme:"Architecture",pieces:289,yearReleased:2016,yearRetired:"2017",built:"YES",retired:"Retired"},
+  {num:"21022",name:"Lincoln Memorial",theme:"Architecture",pieces:274,yearReleased:2015,yearRetired:"2016",built:"YES",retired:"Retired"},
+  {num:"21026",name:"Venice",theme:"Architecture",pieces:212,yearReleased:2016,yearRetired:"2017",built:"YES",retired:"Retired"},
+  {num:"21062",name:"Trevi Fountain",theme:"Architecture",pieces:1880,yearReleased:2025,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"21058",name:"Great Pyramid of Giza",theme:"Architecture",pieces:1476,yearReleased:2022,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"21047",name:"Las Vegas",theme:"Architecture",pieces:487,yearReleased:2018,yearRetired:"2020",built:"NO",retired:"Retired"},
+  {num:"10281",name:"Bonsai Tree",theme:"Botanical Collection",pieces:878,yearReleased:2021,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"31382",name:"Playful Puppy Dog",theme:"Creator",pieces:336,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"10214",name:"Tower Bridge",theme:"Creator Expert",pieces:4287,yearReleased:2010,yearRetired:"2012",built:"YES",retired:"Retired"},
+  {num:"10253",name:"Big Ben",theme:"Creator Expert",pieces:4163,yearReleased:2016,yearRetired:"2018",built:"YES",retired:"Retired"},
+  {num:"10234",name:"Sydney Opera House",theme:"Creator Expert",pieces:2989,yearReleased:2013,yearRetired:"2016",built:"YES",retired:"Retired"},
+  {num:"76239",name:"Batman Batmobile Tumbler: Scarecrow Showdown",theme:"DC",pieces:422,yearReleased:2021,yearRetired:"2022",built:"NO",retired:"Retired"},
+  {num:"43279",name:"WALL-E and EVE",theme:"Disney",pieces:811,yearReleased:2025,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"43020",name:"FIFA World Cup Official Trophy",theme:"Editions",pieces:2842,yearReleased:2026,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"43019",name:"Soccer Ball",theme:"Editions",pieces:1498,yearReleased:2026,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"43022",name:"Scuderia Ferrari HP Lewis Hamilton Helmet",theme:"Editions",pieces:884,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"43014",name:"Scuderia Ferrari HP Charles Leclerc",theme:"Editions",pieces:886,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"76421",name:"Dobby the House-Elf",theme:"Harry Potter",pieces:403,yearReleased:2023,yearRetired:"2025",built:"YES",retired:"Retired"},
+  {num:"10307",name:"The Eiffel Tower",theme:"Icons",pieces:10001,yearReleased:2022,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"10294",name:"Titanic",theme:"Icons",pieces:9090,yearReleased:2021,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"10335",name:"The Endurance",theme:"Icons",pieces:3011,yearReleased:2024,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"10317",name:"Land Rover Classic Defender 90",theme:"Icons",pieces:2336,yearReleased:2023,yearRetired:"2025",built:"YES",retired:"Retired"},
+  {num:"11384",name:"Golden Retriever Puppy",theme:"Icons",pieces:2102,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"10318",name:"Concorde",theme:"Icons",pieces:2083,yearReleased:2023,yearRetired:"2026",built:"YES",retired:"Not Retired"},
+  {num:"10292",name:"The Friends Apartment",theme:"Icons",pieces:2048,yearReleased:2021,yearRetired:"2023",built:"YES",retired:"Retired"},
+  {num:"10300",name:"Back to the Future Time Machine",theme:"Icons",pieces:1872,yearReleased:2022,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"11378",name:"Douglas DC-3 PAN AM Airliner",theme:"Icons",pieces:1903,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"10334",name:"Retro Radio",theme:"Icons",pieces:906,yearReleased:2024,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"11375",name:"Ferrari F2004 & Michael Schumacher",theme:"Icons",pieces:735,yearReleased:2026,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"10353",name:"Williams Racing FW14B & Nigel Mansell",theme:"Icons",pieces:799,yearReleased:2025,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"10330",name:"McLaren MP4/4 & Ayrton Senna",theme:"Icons",pieces:693,yearReleased:2024,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"11376",name:"Ford Model T",theme:"Icons",pieces:1060,yearReleased:2026,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"11373",name:"The Lord of the Rings: Sauron's Helmet",theme:"Icons",pieces:538,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"10306",name:"Atari 2600",theme:"Icons",pieces:2532,yearReleased:2022,yearRetired:"2024",built:"NO",retired:"Retired"},
+  {num:"21327",name:"Typewriter",theme:"Ideas",pieces:2079,yearReleased:2021,yearRetired:"2024",built:"YES",retired:"Retired"},
+  {num:"21376",name:"Orange Cat",theme:"Ideas",pieces:1755,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"21349",name:"Tuxedo Cat",theme:"Ideas",pieces:1710,yearReleased:2024,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"21347",name:"Red London Telephone Box",theme:"Ideas",pieces:1460,yearReleased:2024,yearRetired:"2025",built:"YES",retired:"Retired"},
+  {num:"21328",name:"Seinfeld",theme:"Ideas",pieces:1326,yearReleased:2021,yearRetired:"2022",built:"YES",retired:"Retired"},
+  {num:"21361",name:"Gremlins: Gizmo",theme:"Ideas",pieces:1125,yearReleased:2025,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"21319",name:"Central Perk",theme:"Ideas",pieces:1070,yearReleased:2019,yearRetired:"2022",built:"YES",retired:"Retired"},
+  {num:"21357",name:"Disney Pixar Luxo Jr.",theme:"Ideas",pieces:613,yearReleased:2025,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"76968",name:"Dinosaur Fossils: Tyrannosaurus Rex",theme:"Jurassic World",pieces:3145,yearReleased:2025,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"76344",name:"Iron Man Mark 3 Collector's Edition",theme:"Marvel",pieces:1297,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"76327",name:"Iron Man MK4 Bust",theme:"Marvel",pieces:436,yearReleased:2025,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"76282",name:"Rocket & Baby Groot",theme:"Marvel",pieces:566,yearReleased:2024,yearRetired:"2025",built:"NO",retired:"Retired"},
+  {num:"40179",name:"Mosaic Maker",theme:"Other",pieces:4502,yearReleased:2016,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"41843",name:"Family Christmas Tree",theme:"Other",pieces:3171,yearReleased:2025,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"40861",name:"Sulley, Mike and Boo Figures",theme:"Other",pieces:303,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"40953",name:"London Bus",theme:"Other",pieces:245,yearReleased:2026,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"72152",name:"Pikachu and Poke Ball",theme:"Pokemon",pieces:2050,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"72151",name:"Eevee",theme:"Pokemon",pieces:587,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"77256",name:"Time Machine from Back to the Future",theme:"Speed Champions",pieces:357,yearReleased:2026,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"77242",name:"Ferrari SF-24 F1 Race Car",theme:"Speed Champions",pieces:275,yearReleased:2025,yearRetired:"2026",built:"YES",retired:"Not Retired"},
+  {num:"77255",name:"Lightning McQueen",theme:"Speed Champions",pieces:270,yearReleased:2026,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"77252",name:"APXGP Team Race Car from F1 The Movie",theme:"Speed Champions",pieces:268,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"77243",name:"Oracle Red Bull Racing RB20 F1 Race Car",theme:"Speed Champions",pieces:251,yearReleased:2025,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"77244",name:"Mercedes-AMG F1 W15 Race Car",theme:"Speed Champions",pieces:267,yearReleased:2025,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"76925",name:"Aston Martin Safety Car & AMR23",theme:"Speed Champions",pieces:564,yearReleased:2024,yearRetired:"2025",built:"NO",retired:"Retired"},
+  {num:"75192",name:"Millennium Falcon",theme:"Star Wars",pieces:7541,yearReleased:2017,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"75371",name:"Chewbacca",theme:"Star Wars",pieces:2319,yearReleased:2023,yearRetired:"2024",built:"NO",retired:"Retired"},
+  {num:"75308",name:"R2-D2 (2021)",theme:"Star Wars",pieces:2314,yearReleased:2021,yearRetired:"2024",built:"YES",retired:"Retired"},
+  {num:"75382",name:"TIE Interceptor",theme:"Star Wars",pieces:1931,yearReleased:2024,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"75442",name:"The Mandalorian's N-1 Starfighter",theme:"Star Wars",pieces:1809,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75255",name:"Yoda",theme:"Star Wars",pieces:1771,yearReleased:2019,yearRetired:"2022",built:"YES",retired:"Retired"},
+  {num:"75394",name:"Imperial Star Destroyer",theme:"Star Wars",pieces:1555,yearReleased:2024,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75105",name:"Millennium Falcon (2015)",theme:"Star Wars",pieces:1329,yearReleased:2015,yearRetired:"2017",built:"YES",retired:"Retired"},
+  {num:"75446",name:"Grogu (Mandalorian Apprentice)",theme:"Star Wars",pieces:1200,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75398",name:"C-3PO",theme:"Star Wars",pieces:1138,yearReleased:2024,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"75392",name:"Creative Play Droid Builder",theme:"Star Wars",pieces:1186,yearReleased:2024,yearRetired:"2025",built:"NO",retired:"Retired"},
+  {num:"75428",name:"Battle Droid with STAP",theme:"Star Wars",pieces:1088,yearReleased:2025,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75318",name:"The Child",theme:"Star Wars",pieces:1073,yearReleased:2020,yearRetired:"2023",built:"YES",retired:"Retired"},
+  {num:"75403",name:"Grogu with Hover Pram",theme:"Star Wars",pieces:1048,yearReleased:2025,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75430",name:"Wicket the Ewok",theme:"Star Wars",pieces:1010,yearReleased:2025,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"75349",name:"Captain Rex Helmet",theme:"Star Wars",pieces:854,yearReleased:2023,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"75304",name:"Darth Vader Helmet",theme:"Star Wars",pieces:834,yearReleased:2021,yearRetired:"2025",built:"YES",retired:"Retired"},
+  {num:"75429",name:"AT-AT Driver Helmet",theme:"Star Wars",pieces:730,yearReleased:2025,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"75274",name:"TIE Fighter Pilot Helmet",theme:"Star Wars",pieces:724,yearReleased:2020,yearRetired:"2021",built:"NO",retired:"Retired"},
+  {num:"75102",name:"Poe's X-Wing Fighter",theme:"Star Wars",pieces:717,yearReleased:2015,yearRetired:"2018",built:"YES",retired:"Retired"},
+  {num:"75407",name:"Star Wars Logo",theme:"Star Wars",pieces:700,yearReleased:2025,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"75350",name:"Clone Commander Cody Helmet",theme:"Star Wars",pieces:766,yearReleased:2023,yearRetired:"2024",built:"NO",retired:"Retired"},
+  {num:"75351",name:"Princess Leia (Boushh) Helmet",theme:"Star Wars",pieces:670,yearReleased:2023,yearRetired:"2024",built:"NO",retired:"Retired"},
+  {num:"75327",name:"Luke Skywalker (Red Five) Helmet",theme:"Star Wars",pieces:675,yearReleased:2022,yearRetired:"2023",built:"NO",retired:"Retired"},
+  {num:"75408",name:"Jango Fett Helmet",theme:"Star Wars",pieces:616,yearReleased:2025,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75277",name:"Boba Fett Helmet",theme:"Star Wars",pieces:625,yearReleased:2020,yearRetired:"2022",built:"NO",retired:"Retired"},
+  {num:"75452",name:"BB-8 Astromech Droid",theme:"Star Wars",pieces:569,yearReleased:2026,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"75415",name:"Kylo Ren Helmet",theme:"Star Wars",pieces:529,yearReleased:2025,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"75343",name:"Dark Trooper Helmet",theme:"Star Wars",pieces:693,yearReleased:2022,yearRetired:"2023",built:"NO",retired:"Retired"},
+  {num:"75328",name:"The Mandalorian Helmet",theme:"Star Wars",pieces:584,yearReleased:2022,yearRetired:"2026",built:"YES",retired:"Not Retired"},
+  {num:"75305",name:"Scout Trooper Helmet",theme:"Star Wars",pieces:471,yearReleased:2021,yearRetired:"2022",built:"NO",retired:"Retired"},
+  {num:"75301",name:"Luke Skywalker's X-Wing Fighter",theme:"Star Wars",pieces:474,yearReleased:2021,yearRetired:"2023",built:"NO",retired:"Retired"},
+  {num:"75438",name:"Yoda Bust",theme:"Star Wars",pieces:399,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75439",name:"Darth Vader Bust",theme:"Star Wars",pieces:349,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75082",name:"TIE Advanced Prototype",theme:"Star Wars",pieces:355,yearReleased:2015,yearRetired:"2016",built:"YES",retired:"Retired"},
+  {num:"75276",name:"Stormtrooper Helmet",theme:"Star Wars",pieces:647,yearReleased:2020,yearRetired:"2021",built:"YES",retired:"Retired"},
+  {num:"75379",name:"R2-D2 (2024)",theme:"Star Wars",pieces:1050,yearReleased:2024,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"75227",name:"Darth Vader Bust 2019",theme:"Star Wars",pieces:327,yearReleased:2019,yearRetired:"2017",built:"NO",retired:"Retired"},
+  {num:"75112",name:"General Grievous",theme:"Star Wars",pieces:186,yearReleased:2015,yearRetired:"2016",built:"YES",retired:"Retired"},
+  {num:"75111",name:"Darth Vader",theme:"Star Wars",pieces:160,yearReleased:2015,yearRetired:"2017",built:"YES",retired:"Retired"},
+  {num:"75107",name:"Jango Fett",theme:"Star Wars",pieces:85,yearReleased:2015,yearRetired:"2016",built:"YES",retired:"Retired"},
+  {num:"75118",name:"Captain Phasma",theme:"Star Wars",pieces:82,yearReleased:2016,yearRetired:"2017",built:"YES",retired:"Retired"},
+  {num:"75114",name:"First Order Stormtrooper",theme:"Star Wars",pieces:81,yearReleased:2016,yearRetired:"2017",built:"YES",retired:"Retired"},
+  {num:"40795",name:"Luke Skywalker (Rebel Pilot)",theme:"Star Wars",pieces:138,yearReleased:2025,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"72037",name:"Mario Kart - Mario & Standard Kart",theme:"Super Mario",pieces:1972,yearReleased:2025,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"72050",name:"Luigi & Mach 8",theme:"Super Mario",pieces:2234,yearReleased:2026,yearRetired:"-",built:"NO",retired:"Not Retired"},
+  {num:"71411",name:"The Mighty Bowser",theme:"Super Mario",pieces:2807,yearReleased:2022,yearRetired:"2025",built:"NO",retired:"Retired"},
+  {num:"71374",name:"Nintendo Entertainment System",theme:"Super Mario",pieces:2646,yearReleased:2020,yearRetired:"2024",built:"NO",retired:"Retired"},
+  {num:"71426",name:"Piranha Plant",theme:"Super Mario",pieces:540,yearReleased:2023,yearRetired:"2026",built:"NO",retired:"Not Retired"},
+  {num:"72046",name:"Game Boy",theme:"Super Mario",pieces:421,yearReleased:2025,yearRetired:"-",built:"YES",retired:"Not Retired"},
+  {num:"40787",name:"Mario Kart - Spiny Shell",theme:"Super Mario",pieces:234,yearReleased:2025,yearRetired:"2025",built:"YES",retired:"Retired"},
+  {num:"42110",name:"Land Rover Defender",theme:"Technic",pieces:2573,yearReleased:2019,yearRetired:"2022",built:"YES",retired:"Retired"},
+  {num:"42109",name:"App-Controlled Top Gear Rally Car",theme:"Technic",pieces:463,yearReleased:2020,yearRetired:"2021",built:"YES",retired:"Retired"}
+];
+
+const THEME_COLORS = TC;
+
 function renderDashboard() {
   const total      = allSets.length;
   const built      = allSets.filter(s=>s.built==='YES').length;
-  const unbuilt    = total - built;
+  const unbuilt    = total-built;
   const active     = allSets.filter(s=>s.retired==='Not Retired').length;
-  const retired    = total - active;
+  const retired    = total-active;
   const totalBrick = allSets.reduce((a,s)=>a+s.pieces,0);
   const builtBrick = allSets.filter(s=>s.built==='YES').reduce((a,s)=>a+s.pieces,0);
-  const unbuiltBrk = totalBrick - builtBrick;
+  const unbuiltBrk = totalBrick-builtBrick;
   const activeBrk  = allSets.filter(s=>s.retired==='Not Retired').reduce((a,s)=>a+s.pieces,0);
-  const retiredBrk = totalBrick - activeBrk;
+  const retiredBrk = totalBrick-activeBrk;
   const builtPct   = Math.round(built/total*100);
   const brickPct   = Math.round(builtBrick/totalBrick*100);
 
-  // Theme breakdown
-  const themeMap = {};
+  const themeMap={};
   for(const s of allSets){
-    if(!themeMap[s.theme]) themeMap[s.theme]={sets:0,built:0,bricks:0,builtBricks:0,activeSets:0,activeBricks:0,retiredSets:0,retiredBricks:0};
-    const t = themeMap[s.theme];
-    t.sets++; t.bricks+=s.pieces;
+    if(!themeMap[s.theme])themeMap[s.theme]={sets:0,built:0,bricks:0,builtBricks:0,activeSets:0,activeBricks:0,retiredSets:0,retiredBricks:0};
+    const t=themeMap[s.theme];
+    t.sets++;t.bricks+=s.pieces;
     if(s.built==='YES'){t.built++;t.builtBricks+=s.pieces}
     if(s.retired==='Not Retired'){t.activeSets++;t.activeBricks+=s.pieces}
     else{t.retiredSets++;t.retiredBricks+=s.pieces}
   }
-  const themes = Object.entries(themeMap).sort((a,b)=>b[1].sets-a[1].sets);
+  const themes=Object.entries(themeMap).sort((a,b)=>b[1].sets-a[1].sets);
 
-  // Retirement by year
-  const yearMap = {};
+  const yearMap={};
   for(const s of allSets){
-    const yr = (s.yearRetired && s.yearRetired!=='-') ? s.yearRetired : '2027+';
-    if(!yearMap[yr]){yearMap[yr]={sets:0,bricks:0}}
-    yearMap[yr].sets++; yearMap[yr].bricks+=s.pieces;
+    const yr=(s.yearRetired&&s.yearRetired!=='-')?s.yearRetired:'2027+';
+    if(!yearMap[yr])yearMap[yr]={sets:0,bricks:0};
+    yearMap[yr].sets++;yearMap[yr].bricks+=s.pieces;
   }
-  const years = Object.entries(yearMap).sort((a,b)=>{
-    const av = a[0]==='2027+'?9999:parseInt(a[0]);
-    const bv = b[0]==='2027+'?9999:parseInt(b[0]);
+  const years=Object.entries(yearMap).sort((a,b)=>{
+    const av=a[0]==='2027+'?9999:parseInt(a[0]);
+    const bv=b[0]==='2027+'?9999:parseInt(b[0]);
     return av-bv;
   });
-  const totalYrSets  = years.reduce((a,r)=>a+r[1].sets,0);
-  const totalYrBrick = years.reduce((a,r)=>a+r[1].bricks,0);
+  const totalYrSets=years.reduce((a,r)=>a+r[1].sets,0);
+  const totalYrBrick=years.reduce((a,r)=>a+r[1].bricks,0);
 
-  // Matrix
-  const mx = {
-    toBuildActive:0,  toBuildActiveBrk:0,
-    toBuildRetired:0, toBuildRetiredBrk:0,
-    builtActive:0,    builtActiveBrk:0,
-    builtRetired:0,   builtRetiredBrk:0,
-  };
+  const mx={toBuildActive:0,toBuildActiveBrk:0,toBuildRetired:0,toBuildRetiredBrk:0,builtActive:0,builtActiveBrk:0,builtRetired:0,builtRetiredBrk:0};
   for(const s of allSets){
-    const isBuilt  = s.built==='YES';
-    const isActive = s.retired==='Not Retired';
-    if(!isBuilt && isActive) {mx.toBuildActive++;  mx.toBuildActiveBrk+=s.pieces}
-    if(!isBuilt && !isActive){mx.toBuildRetired++; mx.toBuildRetiredBrk+=s.pieces}
-    if(isBuilt  && isActive) {mx.builtActive++;    mx.builtActiveBrk+=s.pieces}
-    if(isBuilt  && !isActive){mx.builtRetired++;   mx.builtRetiredBrk+=s.pieces}
+    const isBuilt=s.built==='YES';const isActive=s.retired==='Not Retired';
+    if(!isBuilt&&isActive){mx.toBuildActive++;mx.toBuildActiveBrk+=s.pieces}
+    if(!isBuilt&&!isActive){mx.toBuildRetired++;mx.toBuildRetiredBrk+=s.pieces}
+    if(isBuilt&&isActive){mx.builtActive++;mx.builtActiveBrk+=s.pieces}
+    if(isBuilt&&!isActive){mx.builtRetired++;mx.builtRetiredBrk+=s.pieces}
   }
 
-  document.getElementById('dash-body').innerHTML = `
+  document.getElementById('dash-body').innerHTML=`
 <div class="dash-content">
-
-  <!-- KPI strip -->
   <div class="kpi-grid">
     <div class="kpi wide" style="--accent:#e3000b">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
@@ -354,166 +325,89 @@ function renderDashboard() {
         <div class="prog-footer"><span>${built} built</span><span>${unbuilt} to build</span></div>
       </div>
     </div>
-    <div class="kpi" style="--accent:#7ec850">
-      <div class="kpi-val sm">${built}</div><div class="kpi-lbl">Built</div>
-      <div class="kpi-sub">${fmt(builtBrick)} bricks</div>
-    </div>
-    <div class="kpi" style="--accent:#e07070">
-      <div class="kpi-val sm">${unbuilt}</div><div class="kpi-lbl">To Build</div>
-      <div class="kpi-sub">${fmt(unbuiltBrk)} bricks</div>
-    </div>
-    <div class="kpi" style="--accent:#70b070">
-      <div class="kpi-val sm">${active}</div><div class="kpi-lbl">Not Retired</div>
-      <div class="kpi-sub">${fmt(activeBrk)} bricks</div>
-    </div>
-    <div class="kpi" style="--accent:#e07070">
-      <div class="kpi-val sm">${retired}</div><div class="kpi-lbl">Retired</div>
-      <div class="kpi-sub">${fmt(retiredBrk)} bricks</div>
-    </div>
+    <div class="kpi" style="--accent:#7ec850"><div class="kpi-val sm">${built}</div><div class="kpi-lbl">Built</div><div class="kpi-sub">${fmt(builtBrick)} bricks</div></div>
+    <div class="kpi" style="--accent:#e07070"><div class="kpi-val sm">${unbuilt}</div><div class="kpi-lbl">To Build</div><div class="kpi-sub">${fmt(unbuiltBrk)} bricks</div></div>
+    <div class="kpi" style="--accent:#70b070"><div class="kpi-val sm">${active}</div><div class="kpi-lbl">Not Retired</div><div class="kpi-sub">${fmt(activeBrk)} bricks</div></div>
+    <div class="kpi" style="--accent:#e07070"><div class="kpi-val sm">${retired}</div><div class="kpi-lbl">Retired</div><div class="kpi-sub">${fmt(retiredBrk)} bricks</div></div>
   </div>
 
-  <!-- Build progress by theme -->
   <div class="sec-title">Build Progress by Theme</div>
   <div class="tbl-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Theme</th>
-          <th>Blt</th><th>Blt Brk</th>
-          <th>ToBld</th><th>ToBld Brk</th>
-          <th>Tot</th><th>Tot Brk</th>
-          <th>%Sets</th><th>%Brk</th>
-          <th>Act</th><th>Act Brk</th>
-          <th>Ret</th><th>Ret Brk</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Theme</th><th>Blt</th><th>Blt Brk</th><th>ToBld</th><th>ToBld Brk</th><th>Tot</th><th>Tot Brk</th><th>%Sets</th><th>%Brk</th><th>Act</th><th>Act Brk</th><th>Ret</th><th>Ret Brk</th></tr></thead>
       <tbody>
-        ${themes.map(([theme,d])=>`
-        <tr>
+        ${themes.map(([theme,d])=>`<tr>
           <td><span class="dot" style="background:${tc(theme)}"></span>${theme}</td>
           <td>${d.built}</td><td>${fmt(d.builtBricks)}</td>
           <td>${d.sets-d.built}</td><td>${fmt(d.bricks-d.builtBricks)}</td>
           <td>${d.sets}</td><td>${fmt(d.bricks)}</td>
-          <td class="pct-cell">${pct(d.built,d.sets)}</td>
-          <td class="pct-cell">${pct(d.builtBricks,d.bricks)}</td>
+          <td class="pct-cell">${pct(d.built,d.sets)}</td><td class="pct-cell">${pct(d.builtBricks,d.bricks)}</td>
           <td>${d.activeSets}</td><td>${fmt(d.activeBricks)}</td>
           <td>${d.retiredSets}</td><td>${fmt(d.retiredBricks)}</td>
         </tr>`).join('')}
-        <tr class="total-row">
-          <td>TOTAL</td>
-          <td>${built}</td><td>${fmt(builtBrick)}</td>
-          <td>${unbuilt}</td><td>${fmt(unbuiltBrk)}</td>
-          <td>${total}</td><td>${fmt(totalBrick)}</td>
-          <td class="pct-cell">${pct(built,total)}</td>
-          <td class="pct-cell">${pct(builtBrick,totalBrick)}</td>
-          <td>${active}</td><td>${fmt(activeBrk)}</td>
-          <td>${retired}</td><td>${fmt(retiredBrk)}</td>
-        </tr>
+        <tr class="total-row"><td>TOTAL</td><td>${built}</td><td>${fmt(builtBrick)}</td><td>${unbuilt}</td><td>${fmt(unbuiltBrk)}</td><td>${total}</td><td>${fmt(totalBrick)}</td><td class="pct-cell">${pct(built,total)}</td><td class="pct-cell">${pct(builtBrick,totalBrick)}</td><td>${active}</td><td>${fmt(activeBrk)}</td><td>${retired}</td><td>${fmt(retiredBrk)}</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Collection Overview Matrix -->
   <div class="sec-title">Collection Overview</div>
   <div class="mx">
     <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Not Retired</th>
-          <th>Retired</th>
-          <th>Total</th>
-        </tr>
-      </thead>
+      <thead><tr><th></th><th>Not Retired</th><th>Retired</th><th>Total</th></tr></thead>
       <tbody>
-        <tr>
-          <td>To Build</td>
-          <td>${mx.toBuildActive}<br><small style="color:var(--muted)">${fmt(mx.toBuildActiveBrk)}</small></td>
-          <td>${mx.toBuildRetired}<br><small style="color:var(--muted)">${fmt(mx.toBuildRetiredBrk)}</small></td>
-          <td>${mx.toBuildActive+mx.toBuildRetired}<br><small style="color:var(--muted)">${fmt(mx.toBuildActiveBrk+mx.toBuildRetiredBrk)}</small></td>
-        </tr>
-        <tr>
-          <td>Built</td>
-          <td>${mx.builtActive}<br><small style="color:var(--muted)">${fmt(mx.builtActiveBrk)}</small></td>
-          <td>${mx.builtRetired}<br><small style="color:var(--muted)">${fmt(mx.builtRetiredBrk)}</small></td>
-          <td>${mx.builtActive+mx.builtRetired}<br><small style="color:var(--muted)">${fmt(mx.builtActiveBrk+mx.builtRetiredBrk)}</small></td>
-        </tr>
-        <tr class="total-row">
-          <td>Total</td>
-          <td>${active}<br><small>${fmt(activeBrk)}</small></td>
-          <td>${retired}<br><small>${fmt(retiredBrk)}</small></td>
-          <td>${total}<br><small>${fmt(totalBrick)}</small></td>
-        </tr>
+        <tr><td>To Build</td><td>${mx.toBuildActive}<br><small style="color:var(--muted)">${fmt(mx.toBuildActiveBrk)}</small></td><td>${mx.toBuildRetired}<br><small style="color:var(--muted)">${fmt(mx.toBuildRetiredBrk)}</small></td><td>${mx.toBuildActive+mx.toBuildRetired}<br><small style="color:var(--muted)">${fmt(mx.toBuildActiveBrk+mx.toBuildRetiredBrk)}</small></td></tr>
+        <tr><td>Built</td><td>${mx.builtActive}<br><small style="color:var(--muted)">${fmt(mx.builtActiveBrk)}</small></td><td>${mx.builtRetired}<br><small style="color:var(--muted)">${fmt(mx.builtRetiredBrk)}</small></td><td>${mx.builtActive+mx.builtRetired}<br><small style="color:var(--muted)">${fmt(mx.builtActiveBrk+mx.builtRetiredBrk)}</small></td></tr>
+        <tr class="total-row"><td>Total</td><td>${active}<br><small>${fmt(activeBrk)}</small></td><td>${retired}<br><small>${fmt(retiredBrk)}</small></td><td>${total}<br><small>${fmt(totalBrick)}</small></td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Retirement by year -->
   <div class="sec-title">Retirement Timeline</div>
-  <div class="tbl-wrap retire-tbl">
+  <div class="tbl-wrap">
     <table>
       <thead><tr><th>Year</th><th>Sets</th><th>Bricks</th></tr></thead>
       <tbody>
-        ${years.map(([yr,d])=>`
-        <tr><td>${yr}</td><td>${d.sets}</td><td>${fmt(d.bricks)}</td></tr>
-        `).join('')}
-        <tr class="total-row">
-          <td>TOTAL</td><td>${totalYrSets}</td><td>${fmt(totalYrBrick)}</td>
-        </tr>
+        ${years.map(([yr,d])=>`<tr><td style="color:var(--muted)">${yr}</td><td>${d.sets}</td><td>${fmt(d.bricks)}</td></tr>`).join('')}
+        <tr class="total-row"><td>TOTAL</td><td>${totalYrSets}</td><td>${fmt(totalYrBrick)}</td></tr>
       </tbody>
     </table>
   </div>
-
 </div>`;
 }
 
-// ── SEARCH ──────────────────────────────────────────────────────
-function initSearch() {
-  const themes = [...new Set(allSets.map(s=>s.theme))].sort();
-  const sel = document.getElementById('f-theme');
-  sel.innerHTML = '<option value="">All Themes</option>' +
-    themes.map(t=>`<option value="${t}">${t}</option>`).join('');
+function initSearch(){
+  const themes=[...new Set(allSets.map(s=>s.theme))].sort();
+  document.getElementById('f-theme').innerHTML='<option value="">All Themes</option>'+themes.map(t=>`<option value="${t}">${t}</option>`).join('');
   filterSets();
 }
 
-function filterSets() {
-  if(!loaded) return;
-  const q = document.getElementById('srch-input').value.trim().toLowerCase();
-  const th = document.getElementById('f-theme').value;
-  const bu = document.getElementById('f-built').value;
-  const re = document.getElementById('f-retired').value;
-
-  const res = allSets.filter(s=>{
-    const mq = !q||s.num.includes(q)||s.name.toLowerCase().includes(q)||s.theme.toLowerCase().includes(q);
-    return mq && (!th||s.theme===th) && (!bu||s.built===bu) && (!re||s.retired===re);
+function filterSets(){
+  const q=document.getElementById('srch-input').value.trim().toLowerCase();
+  const th=document.getElementById('f-theme').value;
+  const bu=document.getElementById('f-built').value;
+  const re=document.getElementById('f-retired').value;
+  const res=allSets.filter(s=>{
+    const mq=!q||s.num.includes(q)||s.name.toLowerCase().includes(q)||s.theme.toLowerCase().includes(q);
+    return mq&&(!th||s.theme===th)&&(!bu||s.built===bu)&&(!re||s.retired===re);
   });
-
-  document.getElementById('result-count').textContent =
-    res.length===allSets.length ? `All ${allSets.length} sets` : `${res.length} of ${allSets.length} sets`;
-
-  document.getElementById('sets-list').innerHTML = res.length===0
-    ? '<div class="empty">No sets found</div>'
-    : res.map(s=>{
-        const color = tc(s.theme);
-        return `<div class="set-card" style="--tc:${color}">
-          <div class="set-meta">#${s.num} · ${s.yearReleased}</div>
-          <div class="set-name">${s.name}</div>
-          <div class="set-footer">
-            <div class="badges">
-              <span class="badge b-theme" style="--tc:${color}">${s.theme}</span>
-              <span class="badge ${s.built==='YES'?'b-built':'b-unbuilt'}">${s.built==='YES'?'✓ Built':'○ Unbuilt'}</span>
-              <span class="badge ${s.retired==='Not Retired'?'b-active':'b-retired'}">${s.retired}</span>
-            </div>
-            <div class="pieces">
-              <div class="pieces-num">${s.pieces.toLocaleString()}</div>
-              <div class="pieces-lbl">pieces</div>
-            </div>
-          </div>
-        </div>`;
-      }).join('');
+  document.getElementById('result-count').textContent=res.length===allSets.length?`All ${allSets.length} sets`:`${res.length} of ${allSets.length} sets`;
+  document.getElementById('sets-list').innerHTML=res.length===0?'<div class="empty">No sets found</div>':res.map(s=>{
+    const color=tc(s.theme);
+    return`<div class="set-card" style="--tc:${color}">
+      <div class="set-meta">#${s.num} · ${s.yearReleased}</div>
+      <div class="set-name">${s.name}</div>
+      <div class="set-footer">
+        <div class="badges">
+          <span class="badge b-theme" style="--tc:${color}">${s.theme}</span>
+          <span class="badge ${s.built==='YES'?'b-built':'b-unbuilt'}">${s.built==='YES'?'✓ Built':'○ Unbuilt'}</span>
+          <span class="badge ${s.retired==='Not Retired'?'b-active':'b-retired'}">${s.retired}</span>
+        </div>
+        <div class="pieces"><div class="pieces-num">${s.pieces.toLocaleString()}</div><div class="pieces-lbl">pieces</div></div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
-// ── NAV ────────────────────────────────────────────────────────
 function switchPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -521,13 +415,13 @@ function switchPage(name){
   document.getElementById('nav-'+name).classList.add('active');
 }
 
-// ── EVENTS ─────────────────────────────────────────────────────
 document.getElementById('srch-input').addEventListener('input',filterSets);
 document.getElementById('f-theme').addEventListener('change',filterSets);
 document.getElementById('f-built').addEventListener('change',filterSets);
 document.getElementById('f-retired').addEventListener('change',filterSets);
 
-loadData();
+renderDashboard();
+initSearch();
 </script>
 </body>
 </html>
