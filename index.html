@@ -213,7 +213,7 @@
 <script>
 // ── IMPORTANT: Replace this URL after you deploy the Apps Script ──
 // It should look like: https://script.google.com/macros/s/XXXX/exec
-const API_URL = 'https://script.google.com/macros/s/AKfycbyLaiXMSt3QURdlglgf4en9XJZDOl1c-U8r3anF7bU8AISZv2BFrLRW08m3zFzsdfwz_w/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxHkd8wn9U4rkHFhVfKCZE9JNg88dvncKOXkb76myG5MM5S-BwkYCe2UXXSgkyX5GVLEg/exec';
 
 const THEME_COLORS = {
   "Star Wars":"#FFE81F","Architecture":"#A8D5E2","Icons":"#F4A460",
@@ -227,34 +227,52 @@ const THEME_COLORS = {
 let allSets = [];
 let loaded = false;
 
-// ── FETCH ──────────────────────────────────────────────────────
-async function loadData() {
-  try {
-    const resp = await fetch(API_URL);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error);
+// ── FETCH via JSONP (bypasses CORS) ────────────────────────────
+function loadData() {
+  // Remove any previous JSONP script tag
+  const old = document.getElementById('jsonp-script');
+  if (old) old.remove();
 
-    allSets = data.sets;
-    loaded = true;
+  window._legoCallback = function(data) {
+    try {
+      if (data.error) throw new Error(data.error);
+      allSets = data.sets;
+      loaded = true;
+      const ts = new Date(data.fetchedAt);
+      const timeStr = ts.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      document.getElementById('dash-subtitle').innerHTML = `${allSets.length} sets · synced ${timeStr} <span style="opacity:0.4;font-size:10px">v1.2</span>`;
+      document.getElementById('srch-subtitle').textContent = `${allSets.length} sets`;
+      renderDashboard();
+      initSearch();
+    } catch(e) {
+      showError(e.message);
+    }
+  };
 
-    const ts = new Date(data.fetchedAt);
-    const timeStr = ts.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    document.getElementById('dash-subtitle').textContent = `${allSets.length} sets · synced ${timeStr}`;
-    document.getElementById('srch-subtitle').textContent = `${allSets.length} sets`;
+  // Set a timeout in case script never calls back
+  const timer = setTimeout(() => showError('Request timed out. Try again.'), 60000);
+  window._legoCallback = (function(origFn) {
+    return function(data) {
+      clearTimeout(timer);
+      origFn(data);
+    };
+  })(window._legoCallback);
 
-    renderDashboard();
-    initSearch();
-  } catch(e) {
-    const html = `<div class="error-box">
-      ⚠️ Could not load data.<br><br>${e.message}<br><br>
-      Make sure the Apps Script is deployed and the URL is set in index.html.
-      <br><button class="retry-btn" onclick="loadData()">Retry</button>
-    </div>`;
-    document.getElementById('dash-body').innerHTML = html;
-    document.getElementById('sets-list').innerHTML = html;
-    document.getElementById('dash-subtitle').textContent = 'Failed to load';
-  }
+  const script = document.createElement('script');
+  script.id = 'jsonp-script';
+  script.src = API_URL + '?callback=_legoCallback';
+  script.onerror = () => showError('Failed to reach Apps Script.');
+  document.head.appendChild(script);
+}
+
+function showError(msg) {
+  const html = `<div class="error-box">
+    ⚠️ Could not load data.<br><br>${msg}<br><br>
+    <button class="retry-btn" onclick="loadData()">Retry</button>
+  </div>`;
+  document.getElementById('dash-body').innerHTML = html;
+  document.getElementById('sets-list').innerHTML = html;
+  document.getElementById('dash-subtitle').textContent = 'Failed to load';
 }
 
 // ── HELPERS ────────────────────────────────────────────────────
